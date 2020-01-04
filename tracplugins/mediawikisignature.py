@@ -10,7 +10,7 @@ import re
 
 from trac.core import Component, implements, TracError
 from trac.util import get_reporter_id
-from trac.util.datefmt import format_datetime, localtz, user_time, parse_date
+from trac.util.datefmt import format_datetime, localtz, user_time, parse_date, pretty_timedelta
 from trac.wiki.api import IWikiPageManipulator, IWikiSyntaxProvider
 from trac.util.html import tag
 from trac.wiki.formatter import format_to_oneliner
@@ -99,8 +99,9 @@ class SignatureMacro(WikiMacroBase):
                 tzinfo = getattr(formatter.context.req, 'tz', None)
                 try:
                     dateobject = parse_date(timestamp)
-                    today_user = user_time(formatter.context.req, format_datetime, dateobject, tzinfo=tzinfo)
-                    timeline = ''.join(['[[timeline:', timestamp, '|', today_user, ']]'])
+                    now = datetime.now(tzinfo or localtz)
+                    pretty_diff = pretty_timedelta(dateobject, now) + ' ago'
+                    timeline = ''.join(['[[timeline:', timestamp, '|', pretty_diff, ']]'])
                 except TracError:
                     pass
 
