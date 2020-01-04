@@ -7,6 +7,7 @@
 # you should have received as part of this distribution.
 
 from datetime import datetime
+import re
 
 from trac.core import Component, implements, TracError
 from trac.util import get_reporter_id
@@ -56,53 +57,41 @@ class MediaWikiSignatureManipulator(Component):
         return []
 
     def get_link_resolvers(self):
-        def link_resolver(formatter, ns, target, label):
+        def username_link_resolver(formatter, ns, target, label):
             username = target
             return tag.a(label, title='Link to user: ' + username, href='https://www.google.com', class_='trac-author-user')
-
-        yield 'user', link_resolver
+        def fullname_resolver(formatter, ns, target, label):
+            fullname = target
+            return tag.a(label, class_='trac-author-user')
+        return [('user', username_link_resolver), ('full-username', fullname_resolver)]
 
 class SignatureMacro(WikiMacroBase):
     _description = (
     """Expands the passed username, date and full-username to a MediaWiki like signature""")
+    
+    regexp = "^\s*(?P<username>[^,]*)?\s*(?:,\s*(?P<timestamp>[^,]*)?\s*(?:,\s*(?P<fullname>.*)?)?)?$"
+    
+    def __init__(self):
+        self.contentRegexp = re.compile(self.regexp)
 
     def expand_macro(self, formatter, name, content, args):
-        if content:
-            args = content.split(',')
+        args = self.contentRegexp.match(content or '')
+        if args: 
+            username = args.groupdict().get('username')
+            timestamp = args.groupdict().get('timestamp')
+            fullname = args.groupdict().get('fullname')
 
-            username = None
-            timestamp = None
-            fullusername = None
-            if len(args) > 0:
-                username = args[0]
-                if not username:
-                    username = username.strip()
-            if len(args) > 1:
-                timestamp = args[1]
-                if not timestamp:
-                    timestamp = timestamp.strip()
-            if len(args) > 2:
-                # Need to handle the situation that a , is present in the fullname
-                fullusername = args[2]
-                if not fullusername:
-                    fullusername = fullusername.strip()
+            if not fullname or len(fullname) == 0:
+                fullname = username
 
-            if not username or len(username) == 0:
-                username = None
-            if not timestamp or len(timestamp) == 0:
-                timestamp = None
-            if not fullusername or len(fullusername) == 0:
-                fullusername = None
-
-            if not fullusername:
-                fullusername = username
-
-            signature = fullusername
-            if username:
-                signature = ''.join(['[[user:', username, '|', fullusername or username, ']]'])
-
+            signature = fullname or ''
+            if username and len(username):
+                signature = ''.join(['[[user:', username, '|', fullname or username, ']]'])
+            elif fullname and len(fullname):
+                signature = ''.join(['[[full-username:', fullname, '|', fullname, ']]'])
+                
             timeline = ''
-            if timestamp:
+            if timestamp and len(timestamp):
                 tzinfo = getattr(formatter.context.req, 'tz', None)
                 try:
                     dateobject = parse_date(timestamp)
