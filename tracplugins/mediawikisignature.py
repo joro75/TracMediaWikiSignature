@@ -26,14 +26,22 @@ class MediaWikiSignatureManipulator(Component):
     def prepare_wiki_page(self, req, page, fields):
         pass
 
+    def _count_characters(self, text, character):
+        count = 0
+        max = len(text)
+        while count < max and text[count] == character:
+            count += 1 
+        return count
+
     def validate_wiki_page(self, req, page):
         startpos = page.text.find('~~~')
         if startpos >= 0:
             # Only search and replace in the part that we found
             # a 3-tilde signature
-            prefix = page.text[:startpos]
-            replacetext = page.text[startpos:]
+            donetext = page.text[:startpos]
+            searchtext = page.text[startpos:]
 
+            # Prepare the name and the date that we are probably going to insert
             fullname = req.session.get('name')
             username = get_reporter_id(req)
 
@@ -41,12 +49,27 @@ class MediaWikiSignatureManipulator(Component):
             now = datetime.now(tzinfo or localtz)
             today = format_datetime(now, 'iso8601', tzinfo)
 
-            # Replace the tilde signature starting with the longest
-            replacetext = replacetext.replace('~~~~~', ''.join(['-- [[Signature(,', today, ')]]']))
-            replacetext = replacetext.replace('~~~~', ''.join(['-- [[Signature(', username, ', ', today, ', ', fullname or '', ')]]']))
-            replacetext = replacetext.replace('~~~', ''.join(['-- [[Signature(', username, ', , ', fullname or '', ')]]']))
+            signatures = {}
+            signatures[3] = ''.join(['-- [[Signature(', username, ', , ', fullname or '', ')]]'])
+            signatures[4] = ''.join(['-- [[Signature(', username, ', ', today, ', ', fullname or '', ')]]'])
+            signatures[5] = ''.join(['-- [[Signature(,', today, ')]]'])
 
-            page.text = prefix + replacetext
+            # Find and replace all the signatures
+            sigstart = searchtext.find('~~~')
+            while sigstart >= 0:
+                # Determine how many tildes are present here
+                count = self._count_characters(searchtext[sigstart:], '~')
+                macroCode = signatures.get(count, None) 
+                if macroCode:
+                    donetext += searchtext[:sigstart]
+                    donetext += macroCode
+                else:
+                    donetext += searchtext[:sigstart + count]                
+                searchtext = searchtext[sigstart + count:]
+                sigstart = searchtext.find('~~~')
+            donetext += searchtext
+
+            page.text = donetext
 
         return []
 
