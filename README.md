@@ -34,5 +34,6 @@ Install the plugin by creating a Python Egg, as instructed on the Trac Wiki at: 
  * Copy the egg file to the plugins directory of the project environment.
  * Make sure the web server has sufficient permissions to read the plugin egg and restart the web server. If you are running as a "tracd" standalone server, restart tracd (i.e. kill the process and run again).
 
-# Known problems
-No problems are known yet. If you have notice a problem, please let me know by creating an issue on the GitHub repository at https://github.com/joro75/TracMediaWikiSignature/issues.
+# Problems
+An initial 1.0 release has not been released yet, and problems could thus still be present. If you have notice a problem, please let me know by creating an issue on the GitHub repository at https://github.com/joro75/TracMediaWikiSignature/issues.
+On that same location also a list of all known bugs is available.
