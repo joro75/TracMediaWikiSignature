@@ -19,7 +19,7 @@ from trac.wiki.macros import WikiMacroBase
 class MediaWikiSignatureManipulator(Component):
     _description = "Replaces the MediaWiki signature with the author name."
 
-    implements(IWikiPageManipulator, IWikiSyntaxProvider)
+    implements(IWikiPageManipulator)
 
     # IWikiPageManipulator
 
@@ -49,6 +49,11 @@ class MediaWikiSignatureManipulator(Component):
             page.text = prefix + replacetext
 
         return []
+
+class TracLinkUsernameProvider(Component):
+    _description = "Provides the user: and full-username: TracLinks."
+
+    implements(IWikiSyntaxProvider)
 
     # IWikiSyntaxProvider methods
 
