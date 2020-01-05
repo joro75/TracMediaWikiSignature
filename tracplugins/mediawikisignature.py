@@ -135,7 +135,7 @@ class SignatureMacro(WikiMacroBase):
       This fullname will be the text that will be shown as being the signature.
     All the parameters are optional, but at least one of them should be specified.
     
-    If the username or fullname is specified the `user:` !TracLink will be used to show
+    If the username or fullname is specified, the `user:` !TracLink will be used to show
     the username in the standard Trac formatting style.
     If the timestamp is specified, a pretty formatted difference to the actual time is
     being shown. This can for example result in the text: `12 minutes ago`. The shown
