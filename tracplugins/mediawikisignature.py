@@ -86,7 +86,7 @@ class TracLinkUsernameProvider(Component):
     def get_link_resolvers(self):
         def username_link_resolver(formatter, ns, target, label):
             username = target
-            return tag.a(label, title='Link to user: ' + username, href='https://www.google.com', class_='trac-author-user')
+            return tag.a(label, title='username: ' + username, class_='trac-author-user')
         def fullname_resolver(formatter, ns, target, label):
             fullname = target
             return tag.a(label, class_='trac-author-user')
