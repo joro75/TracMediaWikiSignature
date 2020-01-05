@@ -7,7 +7,7 @@ Three different variants are possible:
 * The `~~~` will be replaced by the username only 
 * The `~~~~` will be replaced by the username and timestamp 
 * The `~~~~~` will be replaced by the timestamp only 
-With all these variants also a seperating `--` prefix will automatically be included. 
+With all these variants also a separating `--` prefix will automatically be included. 
 
 During the editing, and in the preview of the Trac Wiki page, the tildes of the signature and the Username and date-time stamp will not be visible. The replaced signature is only visible when the Trac Wiki page is succesfully saved and shown.
 
