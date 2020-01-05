@@ -27,7 +27,7 @@ class MediaWikiSignature(Component):
     * The `~~~~` will be replaced by the username and timestamp
     * The `~~~~~` will be replaced by the timestamp only
     
-    With all these variants also a seperating `--` prefix will automatically 
+    With all these variants also a separating `--` prefix will automatically 
     be included.
     The actual showing of the signature is handled by the `[[Signature(...)]]` macro, to 
     be able to show a pretty formatted username and timestamp.
