@@ -16,13 +16,13 @@ setup(
     description='Trac plugin for using the MediaWiki signature in wiki pages',
     keywords='trac wiki plugin',
     platforms='any',
-    version='0.8.0.1',
+    version='1.0.0.0',
     license='MIT',
     author='John de Rooij',
     author_email='john.de.rooij@gmail.com',
     url=PluginHomepageURL,
     long_description="""
-      This plugin for Trac 1.0 provides support for using the 
+      This plugin for Trac >= 1.0 provides support for using the 
       MediaWiki signature ('~~~~') during wiki page editing, where
       the signature will be replaced by the editors username and the
       date and time of the edit.
