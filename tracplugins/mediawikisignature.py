@@ -10,14 +10,30 @@ import re
 
 from trac.core import Component, implements, TracError
 from trac.util import get_reporter_id
+from trac.util.text import cleandoc
 from trac.util.datefmt import format_datetime, localtz, user_time, parse_date, pretty_timedelta
 from trac.wiki.api import IWikiPageManipulator, IWikiSyntaxProvider
 from trac.util.html import tag
 from trac.wiki.formatter import format_to_oneliner
 from trac.wiki.macros import WikiMacroBase
 
-class MediaWikiSignatureManipulator(Component):
-    _description = "Replaces the MediaWiki signature with the author name."
+class MediaWikiSignature(Component):
+    """Provides the functionality that MediaWiki signatures (`~~~~`) can be used
+    when editing Wiki pages.
+    
+    During the saving of the Wiki page the !MediaWiki signature is replaced by the 
+    username and/or the timestamp of the edit. Three different variants are possible:
+    * The `~~~` will be replaced by the username only
+    * The `~~~~` will be replaced by the username and timestamp
+    * The `~~~~~` will be replaced by the timestamp only
+    
+    With all these variants also a seperating `--` prefix will automatically 
+    be included.
+    The actual showing of the signature is handled by the `[[Signature(...)]]` macro, to 
+    be able to show a pretty formatted username and timestamp.
+    """
+    
+    _description = cleandoc(__doc__)
 
     implements(IWikiPageManipulator)
 
@@ -73,8 +89,22 @@ class MediaWikiSignatureManipulator(Component):
 
         return []
 
-class TracLinkUsernameProvider(Component):
-    _description = "Provides the user: and full-username: TracLinks."
+class UserTracLinkProvider(Component):
+    """Provides the `user:` and `full-username:` TracLinks. 
+
+    The `user:` !TracLink will show the username in the standard Trac formatting style.
+    This !TracLink could in the future be adjusted to link to the relevant user specific
+    page of that user.
+    
+    The `full-username:` !TracLink will show the full name of the user in the standard
+    Trac formatting style. Because no username is present when this !TracLink is used,
+    no linking to another page or URL is possible.
+
+    This part of the !TracMediaWikiSignature plugin can be disabled to allow that a more
+    appropriate `user:` !TracLink of another plugin can be enabled and used.
+    """
+
+    _description = cleandoc(__doc__)
 
     implements(IWikiSyntaxProvider)
 
@@ -93,9 +123,32 @@ class TracLinkUsernameProvider(Component):
         return [('user', username_link_resolver), ('full-username', fullname_resolver)]
 
 class SignatureMacro(WikiMacroBase):
-    _description = (
-    """Expands the passed username, date and full-username to a MediaWiki like signature""")
+    """Provides the `[[Signature(....)]]` macro to generate a signature with an
+    username and/or timestamp.
     
+    The macro accepts the following three positional parameters:
+    * first parameter (username): the (short) username of the person that placed the 
+      signature.
+    * second parameter (timestamp): an ISO8601 formatted date that specifies the date 
+      and time when then signature was placed.
+    * third parameter (fullname): the fullname of the person that placed the signature.
+      This fullname will be the text that will be shown as being the signature.
+    All the parameters are optional, but at least one of them should be specified.
+    
+    If the username or fullname is specified, the `user:` !TracLink will be used to show
+    the username in the standard Trac formatting style.
+    If the timestamp is specified, a pretty formatted difference to the actual time is
+    being shown. This can for example result in the text: `12 minutes ago`. The shown
+    text is also linked to the Timeline for the moment of the timestamp. This linking
+    is achieved by using the `timeline:` !TracLink. The exact timestamp is available in 
+    the tooltip of the pretty formatted timestamp.
+    
+    `[[Signature(joro, 2019-10-19T14:56, John de Rooij)]]` will for example result in:
+    "John de Rooij 3 months ago"
+    """
+
+    _description = cleandoc(__doc__)
+
     regexp = "^\s*(?P<username>[^,]*)?\s*(?:,\s*(?P<timestamp>[^,]*)?\s*(?:,\s*(?P<fullname>.*)?)?)?$"
     
     def __init__(self):
