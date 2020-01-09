@@ -27,6 +27,12 @@ setup(
       the signature will be replaced by the editors username and the
       date and time of the edit.
       """,
+    classifiers=[
+      "Framework :: Trac",
+      "Programming Language :: Python :: 2.7",
+      "License :: OSI Approved :: MIT License",
+      "Operating System :: OS Independent",
+    ],
     packages=find_packages(exclude=['*.tests*']),
     package_data={
         '': ['LICENSE', 'README.md'],
