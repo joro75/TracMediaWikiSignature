@@ -123,7 +123,10 @@ class SignatureMacro(WikiMacroBase):
                 try:
                     dateobject = parse_date(timestamp)
                     now = datetime.now(tzinfo or localtz)
-                    pretty_diff = pretty_timedelta(dateobject, now) + ' ago'
+                    date_suffix = ' ago'
+                    if dateobject > now:
+                        date_suffix = ' in the future'
+                    pretty_diff = pretty_timedelta(dateobject, now) + date_suffix
                     timeline = ''.join(['[[timeline:', timestamp, '|', pretty_diff, ']]'])
                 except TracError:
                     pass
