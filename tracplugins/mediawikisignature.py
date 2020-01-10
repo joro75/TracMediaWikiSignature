@@ -23,7 +23,8 @@ from trac.util import get_reporter_id
 from trac.util.text import cleandoc
 from trac.util.datefmt import format_datetime, localtz, user_time, \
             parse_date, pretty_timedelta
-from trac.wiki.api import IWikiPageManipulator, IWikiSyntaxProvider
+from trac.wiki.api import IWikiPageManipulator, IWikiSyntaxProvider, \
+            WikiSystem
 from trac.util.html import tag
 from trac.wiki.formatter import format_to_oneliner
 from trac.wiki.macros import WikiMacroBase
@@ -146,11 +147,18 @@ class UserTracLinkProvider(Component):
 
         def _username_link_resolver(formatter, ns, target, label):
             """Create and return the HTML fragment for the user:
-            TracLink.
+            TracLink. Including a link to the Wiki page of the user
+            if that is available.
             """
             username = target
-            return tag.a(label, title="username: " + username,
-                         class_='trac-author-user')
+            kwargs = {
+                        'title': "username: " + username,
+                        'class_': 'trac-author-user'
+                     }
+            ws = WikiSystem(formatter.env)
+            if 'WIKI_VIEW' in formatter.perm and ws.has_page(username):
+                kwargs['href'] = formatter.href.wiki(username)
+            return tag.a(label, **kwargs)
 
         def _fullname_resolver(formatter, ns, target, label):
             """Create and return the HTML fragment for the
@@ -182,6 +190,8 @@ class SignatureMacro(WikiMacroBase):
     
     If the username or fullname is specified, the `user:` !TracLink will
     be used to show the username in the standard Trac formatting style.
+    If the username has a Wiki page, the shown username will also be
+    linked to that Wiki page.
     If the timestamp is specified, a pretty formatted difference to the
     actual time is being shown. This can for example result in the text:
     `12 minutes ago`. The shown text is also linked to the Timeline for
