@@ -89,11 +89,11 @@ class MediaWikiSignature(Component):
             today = format_datetime(now, 'iso8601', tzinfo)
 
             signatures = {}
-            signatures[3] = ''.join(['-- [[Signature(', username, ', , ',
+            signatures[3] = ''.join(["-- ", '[[Signature(', username, ', , ',
                             fullname or '', ')]]'])
-            signatures[4] = ''.join(['-- [[Signature(', username, ', ',
+            signatures[4] = ''.join(["-- ", '[[Signature(', username, ', ',
                             today, ', ', fullname or '', ')]]'])
-            signatures[5] = ''.join(['-- [[Signature(,', today, ')]]'])
+            signatures[5] = ''.join(["-- ", '[[Signature(,', today, ')]]'])
 
             # Find and replace all the signatures
             sigstart = searchtext.find('~~~')
@@ -149,7 +149,7 @@ class UserTracLinkProvider(Component):
             TracLink.
             """
             username = target
-            return tag.a(label, title='username: ' + username,
+            return tag.a(label, title="username: " + username,
                          class_='trac-author-user')
 
         def _fullname_resolver(formatter, ns, target, label):
@@ -190,12 +190,12 @@ class SignatureMacro(WikiMacroBase):
     tooltip of the pretty formatted timestamp.
     
     `[[Signature(joro, 2019-10-19T14:56, John de Rooij)]]` will for
-    example result in: "John de Rooij 3 months ago"
+    example result in: \"John de Rooij 3 months ago\"
     """
 
     _description = cleandoc(__doc__)
 
-    regexp = r"""
+    regexp = r'''
             ^\s*
             (?P<username>[^,]*)?\s*
             (?:,
@@ -205,7 +205,7 @@ class SignatureMacro(WikiMacroBase):
                 )?
             )?
             $
-            """
+            '''
     
     def __init__(self):
         """Construct the instance, and create the precompiled
@@ -244,18 +244,18 @@ class SignatureMacro(WikiMacroBase):
                 try:
                     dateobject = parse_date(timestamp)
                     now = datetime.now(tzinfo or localtz)
-                    date_suffix = 'ago'
+                    date_suffix = "ago"
                     if dateobject > now:
-                        date_suffix = 'in the future'
+                        date_suffix = "in the future"
                     timeline = ''.join([
                                         '[[timeline:', timestamp, '|',
                                         pretty_timedelta(dateobject, now),
-                                        ' ', date_suffix, ']]'
+                                        " ", date_suffix, ']]'
                                        ])
                 except TracError:
                     pass
 
-            result = ''.join([signature or '', ' ', timeline or '']).strip()
+            result = ''.join([signature or '', " ", timeline or '']).strip()
             # Convert Wiki markup to HTML
             return format_to_oneliner(self.env, formatter.context, result)
         else:
