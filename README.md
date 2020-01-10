@@ -26,7 +26,7 @@ If the timestamp is specified, a pretty formatted difference to the actual time 
 
 `[[Signature(joro, 2019-10-19T14:56, John de Rooij)]]` will for example result in: "John de Rooij 3 months ago"
 
-The plugin also provides a standard implementation of the `user:` TracLink, which will show the specified username in the standard Trac formatting. This implementation of the `user:` TracLink can be disabled, to allow other plugins to provide a more relevant implementation that links to a specific user page.
+The plugin also provides a standard implementation of the `user:` TracLink, which will show the specified username in the standard Trac formatting. If the user also has an available Wiki page, the shown username will be linked to that Wiki page. This implementation of the `user:` TracLink can be disabled, to allow other plugins to provide a more relevant implementation that links to a specific user page.
 
 # Installation
 The plugin is provided through the GitHub repository at https://github.com/joro75/TracMediaWikiSignature
