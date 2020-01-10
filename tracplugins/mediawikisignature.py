@@ -254,9 +254,7 @@ class SignatureMacro(WikiMacroBase):
                 try:
                     dateobject = parse_date(timestamp)
                     now = datetime.now(tzinfo or localtz)
-                    date_suffix = "ago"
-                    if dateobject > now:
-                        date_suffix = "in the future"
+                    date_suffix = "ago" if dateobject <= now else "in the future"
                     timeline = ''.join([
                                         '[[timeline:', timestamp, '|',
                                         pretty_timedelta(dateobject, now),
