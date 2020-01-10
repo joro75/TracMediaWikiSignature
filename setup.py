@@ -8,11 +8,14 @@
 
 from setuptools import find_packages, setup
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 PluginHomepageURL = 'https://github.com/joro75/TracMediaWikiSignature'
 
 setup(
     name='TracMediaWikiSignature',
-    install_requires='Trac >=1.0dev',
+    install_requires=['Trac'],
     description='Trac plugin for using the MediaWiki signature in wiki pages',
     keywords='trac wiki plugin',
     platforms='any',
@@ -21,12 +24,7 @@ setup(
     author='John de Rooij',
     author_email='john.de.rooij@gmail.com',
     url=PluginHomepageURL,
-    long_description="""
-      This plugin for Trac >= 1.0 provides support for using the 
-      MediaWiki signature ('~~~~') during wiki page editing, where
-      the signature will be replaced by the editors username and the
-      date and time of the edit.
-      """,
+    long_description=long_description,
     classifiers=[
       "Framework :: Trac",
       "Programming Language :: Python :: 2.7",
