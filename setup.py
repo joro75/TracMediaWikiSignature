@@ -1,3 +1,4 @@
+#!/usr/bin/env python2
 # -*- coding: iso-8859-1 -*-
 #
 # Copyright (C) 2020 John de Rooij

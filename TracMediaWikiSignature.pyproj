@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{60587465-df31-4a25-b5da-a3cb0048f1c2}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>
+    </StartupFile>
+    <SearchPath>tracplugins\</SearchPath>
+    <WorkingDirectory>
+    </WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId>Global|PythonCore|2.7-32</InterpreterId>
+    <IsWindowsApplication>False</IsWindowsApplication>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include=".gitignore" />
+    <Content Include="LICENSE" />
+    <Content Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="doc\build-tools\CompileCopy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="setup.py" />
+    <Compile Include="tracplugins\mediawikisignature.py" />
+    <Compile Include="tracplugins\__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="doc\build-tools\" />
+    <Folder Include="doc\" />
+    <Folder Include="tracplugins" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|PythonCore|2.7-32" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+</Project>

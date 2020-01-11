@@ -21,7 +21,7 @@ import re
 from trac.core import Component, implements, TracError
 from trac.util import get_reporter_id
 from trac.util.text import cleandoc
-from trac.util.datefmt import format_datetime, localtz, user_time, \
+from trac.util.datefmt import format_datetime, localtz, \
             parse_date, pretty_timedelta
 from trac.wiki.api import IWikiPageManipulator, IWikiSyntaxProvider, \
             WikiSystem
