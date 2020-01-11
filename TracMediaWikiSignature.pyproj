@@ -7,8 +7,7 @@
     <ProjectHome />
     <StartupFile>
     </StartupFile>
-    <SearchPath>
-    </SearchPath>
+    <SearchPath>tracplugins\</SearchPath>
     <WorkingDirectory>
     </WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -29,11 +28,16 @@
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="doc\build-tools\CompileCopy.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="setup.py" />
     <Compile Include="tracplugins\mediawikisignature.py" />
     <Compile Include="tracplugins\__init__.py" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="doc\build-tools\" />
+    <Folder Include="doc\" />
     <Folder Include="tracplugins" />
   </ItemGroup>
   <ItemGroup>
