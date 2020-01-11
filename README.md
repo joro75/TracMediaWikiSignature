@@ -19,6 +19,7 @@ The `[[Signature(...)]]` macro accepts the following three positional parameters
 * first parameter (username): the (short) username of the person that placed the signature. 
 * second parameter (timestamp): an ISO8601 formatted date that specifies the date and time when then signature was placed. 
 * third parameter (fullname): the fullname of the person that placed the signature. This fullname will be the text that will be shown as being the signature. 
+
 All the parameters are optional, but at least one of them should be specified. 
 
 If the username or fullname is specified, the `user:` TracLink will be used to show the username in the standard Trac formatting style. 
