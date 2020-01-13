@@ -11,11 +11,22 @@ import subprocess
 import glob
 import shutil
 
-if 'win32' in sys.platform:
-    subprocess.call(r'py setup.py bdist_egg sdist bdist_wheel')
-    files = glob.glob('dist\TracMediaWikiSignature-*-py*.*.egg')
-    if len(files):
-        shutil.copy2(files[0], r'L:\Products\Trac\plugins')
+got_modules = True
+
+# Check if wheel is present
+try:
+    import wheel
+except ImportError:
+    # Wheel is not present, try to install it
+    print("The Wheel pip package in missing. Execute: 'pip install wheel'")
+    got_modules = False
+
+if got_modules:
+    if 'win32' in sys.platform:
+        subprocess.call(r'py setup.py bdist_egg sdist bdist_wheel')
+        files = glob.glob('dist\TracMediaWikiSignature-*-py*.*.egg')
+        if len(files):
+            shutil.copy2(files[0], r'L:\Products\Trac\plugins')
 
 # The Trac installation will automatically detect that a newer version is available
 # and will use the updated plugin.
