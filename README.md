@@ -1,5 +1,5 @@
 # TracMediaWikiSignature
-TracMediaWikiSignature is a Trac plugin that allows to use the MediaWiki signatures ("~~~~") on the Trac Wiki pages.
+TracMediaWikiSignature is a [Trac] plugin that allows to use the [MediaWiki signatures][MediaWikiHelpSignature] ("~~~~") on the Trac Wiki pages.
 
 During the saving of the Wiki page the MediaWiki signature is replaced by the username and/or the timestamp of the edit. 
 
@@ -10,7 +10,7 @@ Three different variants are possible:
 
 With all these variants also a separating `--` prefix will automatically be included. 
 
-During the editing, and in the preview of the Trac Wiki page, the tildes of the signature and the Username and date-time stamp will not be visible. The replaced signature is only visible when the Trac Wiki page is succesfully saved and shown.
+During the editing, and in the preview of the Trac Wiki page, the tildes of the signature and the username and date-time stamp will not be visible. The replaced signature is only visible when the Trac Wiki page is succesfully saved and shown.
 
 The actual showing of the signature is handled by the `[[Signature(...)]]` macro, to be able to show a pretty formatted username and timestamp. 
 
@@ -31,9 +31,9 @@ If the timestamp is specified, a pretty formatted difference to the actual time 
 The plugin also provides a standard implementation of the `user:` TracLink, which will show the specified username in the standard Trac formatting. If the user also has an available Wiki page, the shown username will be linked to that Wiki page. This implementation of the `user:` TracLink can be disabled, to allow other plugins to provide a more relevant implementation that links to a specific user page.
 
 # Installation
-The plugin is provided through the GitHub repository at https://github.com/joro75/TracMediaWikiSignature
+The plugin is provided through the [TracMediaWikiSignature GitHub repository][GitHubRepository].
 
-Install the plugin by creating a Python Egg, as instructed on the Trac Wiki at: https://trac.edgewall.org/wiki/TracPlugins#Forasingleproject
+Install the plugin by creating a Python Egg, as instructed on the Trac Wiki regarding [plugin installation][TracPluginINstallation].
  * Checkout or download and unpack the source.
  * Change to the directory containing setup.py.
  * Run:
@@ -43,5 +43,11 @@ Install the plugin by creating a Python Egg, as instructed on the Trac Wiki at: 
  * Make sure the web server has sufficient permissions to read the plugin egg and restart the web server. If you are running as a "tracd" standalone server, restart tracd (i.e. kill the process and run again).
 
 # Problems?
-If you have noticed a problem, please let me know by creating an issue on the GitHub repository at https://github.com/joro75/TracMediaWikiSignature/issues.
+If you have noticed a problem, please let me know by creating an [issue][GitHubRepositoryIssues] on the GitHub repository.
 On that same location also a list of all known bugs is available.
+
+[Trac]: https://trac.edgewall.org/wiki
+[MediaWikiHelpSignature]: https://www.mediawiki.org/wiki/Help:Signatures
+[GitHubRepository]: https://github.com/joro75/TracMediaWikiSignature
+[GitHubRepositoryIssues]: https://github.com/joro75/TracMediaWikiSignature/issues
+[TracPluginInstallation]: https://trac.edgewall.org/wiki/TracPlugins#Forasingleproject
